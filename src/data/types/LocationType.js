@@ -16,6 +16,7 @@ const LocationType = new ObjectType({
     lng: { type: FloatType },
     latlng: { type: FloatType },
     alt: { type: FloatType },
+    visitedAt: { type: StringType },
     userId: { type: StringType },
   },
 });

@@ -19,20 +19,23 @@ const Location = Model.define('Location',
     },
 
     lat: {
-      type: DataType.DECIMAL(11, 2),
+      type: DataType.DECIMAL(11, 8),
     },
 
     lng: {
-      type: DataType.DECIMAL(11, 2),
+      type: DataType.DECIMAL(11, 8),
     },
 
     latlng: {
-      // const point = { type: 'Point', coordinates: [39.807222,-76.984722]};
       type: DataType.GEOMETRY('POINT', 4326),
     },
 
     alt: {
       type: DataType.INTEGER,
+    },
+
+    visitedAt: {
+      type: DataType.DATE,
     },
 
     userId: {
@@ -42,7 +45,7 @@ const Location = Model.define('Location',
   {
     timestamps: true,
     paranoid: true,
-    indexes: [{ fields: ['userId', 'createdAt'] }],
+    indexes: [{ fields: ['userId'] }],
   },
 );
 
