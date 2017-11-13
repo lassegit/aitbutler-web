@@ -26,9 +26,12 @@ import createFetch from './createFetch';
 import passport from './passport';
 import router from './router';
 import models from './data/models';
+import { Location } from './data/models';
 import schema from './data/schema';
 import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 import config from './config';
+import moment from 'moment';
+
 
 const app = express();
 
@@ -106,6 +109,40 @@ app.use(
     pretty: __DEV__,
   })),
 );
+
+app.post('/sync', async (req, res, next) => {
+  const locations = req.body.locations;
+
+  if (!locations) {
+    return res.json({ message: 'No locations brah' })
+  }
+
+  for (var i = 0; i < locations.length; i++) {
+    try {
+      const location = locations[i];
+      const visitedAt = moment(location.timestamp).format('dd-mm-yyyy hh:MM:ss')
+      const lat = location.coords.latitude
+      const lng = location.coords.longitude
+      const latlng = { type: 'Point', coordinates: [lat, lng] };
+      const alt = location.coords.altitude !== null ? parseInt(location.coords.altitude) : null
+      const userId = 1
+
+      const locationRecord = await Location.create({
+        lat: lat,
+        lng: lng,
+        latlng: latlng,
+        alt: alt,
+        visitedAt: visitedAt,
+        userId: userId
+      })
+    } catch (err) {
+      console.log(locations[i])
+      console.log(err)
+    }
+  }
+
+  res.json({ message: 'Thanks for the locations brah' })
+});
 
 //
 // Register server-side rendering middleware
