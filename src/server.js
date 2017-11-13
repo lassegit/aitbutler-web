@@ -120,7 +120,7 @@ app.post('/sync', async (req, res, next) => {
   for (var i = 0; i < locations.length; i++) {
     try {
       const location = locations[i];
-      const visitedAt = moment(location.timestamp).format('dd-mm-yyyy hh:MM:ss')
+      const visitedAt = moment(location.timestamp).format('DD-MM-YYYY HH:MM:SS')
       const lat = location.coords.latitude
       const lng = location.coords.longitude
       const latlng = { type: 'Point', coordinates: [lat, lng] };
